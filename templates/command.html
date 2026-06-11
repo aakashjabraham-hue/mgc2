@@ -40,6 +40,9 @@
         }
 
         // 3. Handle sending commands
+        const socket = io();
+
+        // 2. Handle sending commands (No more window.location.reload needed!)
         document.getElementById('command-form').addEventListener('submit', function(event) {
             event.preventDefault();
         
@@ -48,26 +51,22 @@
         
             if (commandText === '') return; 
         
-            // Clear the box instantly so it feels responsive
+            // Clear the box instantly for a fast UI feel
             inputField.value = '';
         
-            // Send it to your Python backend to be saved into the text file
-            fetch('/send_command', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cmd: commandText,
-                    mailbox_id: mailboxId
-                })
-            }).then(() => {
-                // --- ADDED THE DELAY HERE ---
-                // 500 milliseconds = 0.5 seconds
-                setTimeout(function() {
-                    window.location.reload();
-                }, 300); 
+            // Tell the server to send the command to the target machine
+            socket.emit('send_command', {
+                cmd: commandText,
+                mailbox_id: mailboxId
             });
+        });
+        
+        // 3. Listen for the output coming back in real-time
+        socket.on('update_output', function(data) {
+            if (data.mailbox_id === mailboxId) {
+                // Instantly updates your screen the exact millisecond the output arrives!
+                document.getElementById('output').textContent = data.output;
+            }
         });
     </script>
 
