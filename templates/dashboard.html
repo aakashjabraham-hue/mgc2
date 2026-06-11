@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="sidebar">
+                <nav> 
+                    <ul>
+                        <pre id="pre1" style="font-size: 11px; color: green;">
+  __  __  ____ _ ____     ____ ____  
+ |  \/  |/ ___( ) ___|   / ___|___ \ 
+ | |\/| | |  _|/\___ \  | |     __) |
+ | |  | | |_| |  ___) | | |___ / __/ 
+ |_|  |_|\____| |____/   \____|_____|
+                         
+
+                        </pre>
+                        <li class="{% if active_page == 'machines' %}active-tab{% endif %}"><a style="color: purple" href="{{ url_for('machines') }}">Machines</a></li> 
+                        <li class="{% if active_page == 'command' %}active-tab{% endif %}"><a  style="color: purple" href="">CMD Prompt</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="main-content">
+                <pre style="color: green;">
+  /$$$$$$                        /$$                         /$$       /$$$$$$$                               /$$
+ /$$__  $$                      | $$                        | $$      | $$__  $$                             | $$
+| $$  \__/  /$$$$$$  /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$ | $$      | $$  \ $$ /$$$$$$  /$$$$$$$   /$$$$$$ | $$
+| $$       /$$__  $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$| $$      | $$$$$$$/|____  $$| $$__  $$ /$$__  $$| $$
+| $$      | $$  \ $$| $$  \ $$  | $$    | $$  \__/| $$  \ $$| $$      | $$____/  /$$$$$$$| $$  \ $$| $$$$$$$$| $$
+| $$    $$| $$  | $$| $$  | $$  | $$ /$$| $$      | $$  | $$| $$      | $$      /$$__  $$| $$  | $$| $$_____/| $$
+|  $$$$$$/|  $$$$$$/| $$  | $$  |  $$$$/| $$      |  $$$$$$/| $$      | $$     |  $$$$$$$| $$  | $$|  $$$$$$$| $$
+ \______/  \______/ |__/  |__/   \___/  |__/       \______/ |__/      |__/      \_______/|__/  |__/ \_______/|__/
+                                                                                                                 
+                                                                                                                 
+                                                                                                                 
+                </pre>
+                {% block content %}
+                <!-- Child templates inject their layout tables right here -->
+                {% endblock %}
+            </div>
+
+        </div>
+    </body>
+</html>

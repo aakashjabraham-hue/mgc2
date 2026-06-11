@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Server</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <pre id="header">
+     _         _   _                _   _           _       
+    / \  _   _| |_| |__   ___ _ __ | |_(_) ___ __ _| |_ ___ 
+   / _ \| | | | __| '_ \ / _ \ '_ \| __| |/ __/ _` | __/ _ \
+  / ___ \ |_| | |_| | | |  __/ | | | |_| | (_| (_| | ||  __/
+        /_/   \_\__,_|\__|_| |_|\___|_| |_|\__|_|\___\__,_|\__\___|        
+                 
+  Secure Login Center v1(not secure at all lol)
+        </pre>
+
+        <div class="box">
+            <form method="POST">
+                <input type="text" name="username">
+                <input type="password" name="password">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        
+        <p class="message">{{message}}</p>
+    </body>
+</html>
