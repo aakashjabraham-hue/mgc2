@@ -3,9 +3,11 @@ import psycopg2, os
 from flask_socketio import SocketIO
 
 # Create the instance (commonly named lowercase 'socketio')
-socketio = SocketIO(app)
+
 
 app = Flask(__name__)
+
+socketio = SocketIO(app, cors_allowed_origins="*")
 # Secure secret key pattern
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "local-dev-fallback-key-123")
 
