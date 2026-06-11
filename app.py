@@ -172,13 +172,21 @@ def receive_output(mailbox_id):
 
     return jsonify({"status": "success"})
 
+# FIXED: Now reads the saved output from the database instead of a non-existent text file
 @app.route('/get_output/<mailbox_id>', methods=['GET'])
 def get_output(mailbox_id):
-    try:
-        with open(f"output_{mailbox_id}.txt", "r") as file:
-            content = file.read()
-            return jsonify({"output": content})
-    except FileNotFoundError:
+    if not db_url:
+        return jsonify({"output": "Database not configured locally."})
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT os FROM checkins WHERE machine_id = %s', (mailbox_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row and row[0]:
+        return jsonify({"output": row[0]})
+    else:
         return jsonify({"output": "Waiting for machine execution..."})
 
 if __name__ == "__main__":
