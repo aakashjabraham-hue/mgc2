@@ -1,0 +1,47 @@
+#maincontainer {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    
+    width: 800px;  
+    height: 500px; 
+    
+    /* Safety nets: If a screen is smaller than 800x500, the box scales down instead of breaking */
+    max-width: 95%;
+    max-height: 85vh;
+    
+    /* Centers the terminal box beautifully inside the main content area */
+    margin: 40px auto; 
+    
+    /* Keeps terminal text comfy inside the box */
+    padding: 20px;
+    box-sizing: border-box;
+    
+    /* Optional visual polish: makes it look like a real terminal window */
+    border-radius: 8px;
+    border: 1px solid #45475a;
+
+    font-family: 'Cascadia Mono', 'Consolas', monospace;
+}
+
+#cmd-input {
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
+#cmd-input:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    font-size: 15px;
+}
+
+#command-form {
+    display: flex;
+    flex-direction: row; /* Keeps prompt and box on the same line */
+    align-items: center; 
+    gap: 0px;            
+    width: 100%;
+}
