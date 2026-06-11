@@ -28,6 +28,9 @@
     background-color: transparent;
     border: none;
     color: white;
+
+    flex-grow: 1;
+    width: 100%;
 }
 
 #cmd-input:focus {
