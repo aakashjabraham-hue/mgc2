@@ -27,8 +27,9 @@
                     <td><strong>{{ info.hostname }}</strong></td>
                     <td>{{ info.os }}</td>
                     <td>
-                        <a href="{{ url_for('command') }}?mailbox_id={{ id }}&hostname={{ info.hostname }}">
-                            <img src="{{ url_for('static', filename='plus.png') }}" alt="Create Shell" style="cursor: pointer;">
+                        <a class="shell-btn"
+                           href="{{ url_for('command') }}?mailbox_id={{ id }}&hostname={{ info.hostname }}">
+                           Open Shell
                         </a>
                     </td>
                 </tr>
