@@ -68,7 +68,11 @@ def machines():
     
     machines_dict = {}
     for row in rows:
-        m_id, hostname, os_type = row
+        # Grabbing columns explicitly by position so it never breaks
+        m_id = row[0]
+        hostname = row[1]
+        os_type = row[2]
+        
         machines_dict[m_id] = {
             "hostname": hostname,
             "os": os_type
