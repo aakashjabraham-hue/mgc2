@@ -42,15 +42,15 @@
         // 3. Handle sending commands
         document.getElementById('command-form').addEventListener('submit', function(event) {
             event.preventDefault();
-
+        
             const inputField = document.getElementById('cmd-input');
             const commandText = inputField.value.trim();
-
+        
             if (commandText === '') return; 
-
+        
             // Clear the box instantly so it feels responsive
             inputField.value = '';
-
+        
             // Send it to your Python backend to be saved into the text file
             fetch('/send_command', {
                 method: 'POST',
@@ -61,6 +61,12 @@
                     cmd: commandText,
                     mailbox_id: mailboxId
                 })
+            }).then(() => {
+                // --- ADDED THE DELAY HERE ---
+                // 500 milliseconds = 0.5 seconds
+                setTimeout(function() {
+                    window.location.reload();
+                }, 500); 
             });
         });
     </script>
