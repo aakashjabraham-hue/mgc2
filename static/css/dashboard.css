@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+}
+
+.sidebar ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+    text-align: center;
+    gap: 20px;
+    font-family: "Fira Code", monospace;
+    text-decoration: none;
+}
+
+.sidebar a {
+    text-decoration: none;
+    font-size: 25px;
+}
+
+.sidebar ul li, #pre1 {
+    border-bottom: 1px solid black;
+    padding: 11px;
+}
+
+body {
+    background-color:#1a1a1a ;
+}
+
+.sidebar ul li:hover {
+    text-decoration: underline;
+    text-decoration-color: #a855f7;
+    text-underline-offset: 4px;
+}
+
+table {
+    margin: 0 auto !important;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar ul li.active-tab {
+    border-left: 4px solid #a855f7;
+}

@@ -1,0 +1,67 @@
+/* Everything is scoped inside main-content so it won't touch sidebar/layout */
+.main-content {
+    font-family: Arial, sans-serif;
+    color: #cdd6f4;
+}
+
+/* Title */
+.main-content h1 {
+    color: #89b4fa;
+ 
+    padding-bottom: 10px;
+}
+
+/* Table */
+.main-content table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #313244;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+
+/* Cells */
+.main-content th,
+.main-content td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #45475a;
+}
+
+/* Header row */
+.main-content th {
+    background-color: #45475a;
+    color: #a6e3a1;
+}
+
+/* Hover effect */
+.main-content tr:hover {
+    background-color: #3b3d54;
+}
+
+/* ID badge */
+.main-content .id-badge {
+    background-color: #11111b;
+    color: #f5e0dc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* Button */
+.main-content .btn-control {
+    background-color: #89b4fa;
+    color: #11111b;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.main-content .btn-control:hover {
+    background-color: #b4befe;
+}
