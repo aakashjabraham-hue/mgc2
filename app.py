@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import psycopg2, os
+from flask_socketio import SocketIO
+
+# Create the instance (commonly named lowercase 'socketio')
+socketio = SocketIO(app)
 
 app = Flask(__name__)
 # Secure secret key pattern
